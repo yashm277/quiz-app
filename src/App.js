@@ -17,6 +17,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<CustomerHomepage />} />
+                    <Route path="/manager" element={<ManagerConsole />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
