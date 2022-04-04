@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 
 import './customer.css';
 
-import cart from '../assets/cart.png';
+import cart from '../../assets/cart.png';
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);

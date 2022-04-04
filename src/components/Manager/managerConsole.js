@@ -11,7 +11,7 @@ import {
   doc,
 } from "firebase/firestore";
 
-function App() {
+function ManagerConsole() {
   const [newName, setNewName] = useState("");
   const [newPrice, setNewPrice] = useState(0);
   const [newCategory, setNewCategory] = useState("");
@@ -52,7 +52,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="ManagerConsole">
       <input
         placeholder="Name"
         onChange={(event) => {
@@ -112,4 +112,4 @@ function App() {
   );
 }
 
-export default App;
+export default ManagerConsole;

@@ -1,6 +1,6 @@
-import fruits from '../assets/fruits.jpeg';
-import stationery from '../assets/stationery.jpeg';
-import books from '../assets/books.jpg';
+import fruits from '../../assets/fruits.jpeg';
+import stationery from '../../assets/stationery.jpeg';
+import books from '../../assets/books.jpg';
 
 const Homepage = () => {
     return (

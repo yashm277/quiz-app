@@ -1,6 +1,7 @@
 import './App.css';
-import Navbar from './components/navbar.js';
-import Homepage from './components/customerHomepage.js';
+import Navbar from './components/customer/navbar.js';
+import CustomerHomepage from './components/customer/customerHomepage.js';
+import ManagerConsole from './components/Manager/managerConsole.js';
 import {
     BrowserRouter,
     BrowserRouter as Router,
@@ -15,7 +16,7 @@ function App() {
             <Navbar></Navbar>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Homepage />} />
+                    <Route path="/" element={<CustomerHomepage />} />
                 </Routes>
             </BrowserRouter>
         </div>
