@@ -61,16 +61,12 @@ const ManagerConsole = () => {
     <div className="ManagerConsole">
       <input
         placeholder="Name"
-        onChange={(event) => {
-          setNewName(event.target.value);
-        }}
+        onChange={(e) => { setNewName(e.target.value); }}
       />
       <input
         type="number"
         placeholder="Price"
-        onChange={(event) => {
-          setNewPrice(event.target.value);
-        }}
+        onChange={(e) => { setNewPrice(e.target.value); }}
       />
       <select value={newCategory} onChange={(e) => { setNewCategory(e.target.value); }}>
         {dropdownItems.map((option) => (
@@ -80,12 +76,10 @@ const ManagerConsole = () => {
       <input
         type="number"
         placeholder="Quantity"
-        onChange={(event) => {
-          setNewQuantity(event.target.value);
-        }}
+        onChange={(e) => { setNewQuantity(e.target.value); }}
       />
-
       <button onClick={createItem}> Create Item</button>
+
       <div className="ManagerData">
         {items.map((item) => {
           return (
@@ -95,19 +89,11 @@ const ManagerConsole = () => {
               <h1>Price: {item.price}</h1>
               <h1>Quantity: {item.quantity}</h1>
               <h1>Category: {item.category}</h1>
-              <button
-                onClick={() => {
-                  updateItem(item.id, item.price);
-                }}
-              >
+              <button onClick={() => { updateItem(item.id, item.price); }}>
                 {" "}
                 Increase Price
               </button>
-              <button
-                onClick={() => {
-                  deleteItem(item.id);
-                }}
-              >
+              <button onClick={() => { deleteItem(item.id); }}>
                 {" "}
                 Delete Item
               </button>

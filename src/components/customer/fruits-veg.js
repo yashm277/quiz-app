@@ -14,9 +14,7 @@ const FruitsVeg = () => {
         const getItems = async () => {
             onSnapshot(itemsCollectionRef, async () => {
                 const data = await getDocs(itemsCollectionRef);
-                setItems(
-                    data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-                );
+                setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
             });
         };
 
