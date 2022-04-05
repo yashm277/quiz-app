@@ -15,7 +15,6 @@ const NavLayout = () => (
         <Outlet />
     </>
 );
-// test
 
 const App = () => {
     return (
