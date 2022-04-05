@@ -14,8 +14,14 @@ import {
 const ManagerConsole = () => {
   const [newName, setNewName] = useState("");
   const [newPrice, setNewPrice] = useState(0);
-  const [newCategory, setNewCategory] = useState("");
+  const [newCategory, setNewCategory] = useState("fruitsveg");
   const [newQuantity, setNewQuantity] = useState(0);
+
+  const dropdownItems = [
+    { label: "Fruits And Vegetables", value: "fruitsveg" },
+    { label: "Stationery", value: "stationery" },
+    { label: "Books", value: "books" },
+  ];
 
   const [items, setItems] = useState([]);
   const itemsCollectionRef = collection(db, "item");
@@ -66,12 +72,11 @@ const ManagerConsole = () => {
           setNewPrice(event.target.value);
         }}
       />
-      <input
-        placeholder="Category"
-        onChange={(event) => {
-          setNewCategory(event.target.value);
-        }}
-      />
+      <select value={newCategory} onChange={(e) => { setNewCategory(e.target.value); }}>
+        {dropdownItems.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
       <input
         type="number"
         placeholder="Quantity"
@@ -81,33 +86,35 @@ const ManagerConsole = () => {
       />
 
       <button onClick={createItem}> Create Item</button>
-      {items.map((item) => {
-        return (
-          <div>
-            {" "}
-            <h1>Name: {item.name}</h1>
-            <h1>Price: {item.price}</h1>
-            <h1>Quantity: {item.quantity}</h1>
-            <h1>Category: {item.category}</h1>
-            <button
-              onClick={() => {
-                updateItem(item.id, item.price);
-              }}
-            >
+      <div className="ManagerData">
+        {items.map((item) => {
+          return (
+            <div>
               {" "}
-              Increase Price
-            </button>
-            <button
-              onClick={() => {
-                deleteItem(item.id);
-              }}
-            >
-              {" "}
-              Delete Item
-            </button>
-          </div>
-        );
-      })}
+              <h1>Name: {item.name}</h1>
+              <h1>Price: {item.price}</h1>
+              <h1>Quantity: {item.quantity}</h1>
+              <h1>Category: {item.category}</h1>
+              <button
+                onClick={() => {
+                  updateItem(item.id, item.price);
+                }}
+              >
+                {" "}
+                Increase Price
+              </button>
+              <button
+                onClick={() => {
+                  deleteItem(item.id);
+                }}
+              >
+                {" "}
+                Delete Item
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -1,3 +1,8 @@
 .ManagerConsole {
   text-align: center;
 }
+
+.ManagerData {
+  display: flex;
+  gap: 20px;
+}
