@@ -2,6 +2,7 @@ import './App.css';
 import Navbar from './components/customer/navbar.js';
 import CustomerHomepage from './components/customer/customerHomepage.js';
 import ManagerConsole from './components/Manager/managerConsole.js';
+import FruitsVeg from './components/customer/fruits-veg.js';
 import {
     BrowserRouter,
     Route,
@@ -23,11 +24,11 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<NavLayout />}>
                         <Route index element={<CustomerHomepage />} />
-                        <Route path="/fruits-veg" />
+                        <Route path="/fruits-veg" element={<FruitsVeg />}/>
                         <Route path="/stationery" />
                         <Route path="/books" />
                     </Route>
-                    <Route path="/manager" element={<ManagerConsole />}></Route>
+                    <Route path="/manager" element={<ManagerConsole />} />
                 </Routes>
             </BrowserRouter>
         </div>
