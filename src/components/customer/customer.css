@@ -120,3 +120,23 @@ body {
     width: 90%;
     height: 75%;
 }
+
+.category-flex-container{
+    display: flex;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    gap: 2vw;
+}
+
+@media screen and (max-width: 600px) {
+    /* change number of columns on screen */
+}
+
+.category-flex-container img{
+    width: 50%;
+    margin-top: 10px;
+}
+
+.category-flex-container div{
+    background-color: rgb(205, 228, 255);
+}
