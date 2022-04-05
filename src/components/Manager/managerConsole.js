@@ -11,7 +11,7 @@ import {
   doc,
 } from "firebase/firestore";
 
-function ManagerConsole() {
+const ManagerConsole = () => {
   const [newName, setNewName] = useState("");
   const [newPrice, setNewPrice] = useState(0);
   const [newCategory, setNewCategory] = useState("");

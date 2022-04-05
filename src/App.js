@@ -4,19 +4,29 @@ import CustomerHomepage from './components/customer/customerHomepage.js';
 import ManagerConsole from './components/Manager/managerConsole.js';
 import {
     BrowserRouter,
-    BrowserRouter as Router,
     Route,
     Routes,
-    Switch,
+    Outlet,
 } from 'react-router-dom';
 
-function App() {
+const NavLayout = () => (
+    <>
+        <Navbar />
+        <Outlet />
+    </>
+);
+
+const App = () => {
     return (
         <div className="App">
-            <Navbar></Navbar>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<CustomerHomepage />} />
+                    <Route path="/" element={<NavLayout />}>
+                        <Route index element={<CustomerHomepage />} />
+                        <Route path="/fruits-veg" />
+                        <Route path="/stationery" />
+                        <Route path="/books" />
+                    </Route>
                     <Route path="/manager" element={<ManagerConsole />}></Route>
                 </Routes>
             </BrowserRouter>
