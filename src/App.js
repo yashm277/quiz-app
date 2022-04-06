@@ -3,6 +3,7 @@ import Navbar from './components/customer/navbar.js';
 import CustomerHomepage from './components/customer/customerHomepage.js';
 import ManagerConsole from './components/Manager/managerConsole.js';
 import FruitsVeg from './components/customer/fruits-veg.js';
+import Error from './components/Error/Error.js';  
 import {
     BrowserRouter,
     Route,
@@ -29,6 +30,7 @@ const App = () => {
                         <Route path="/books" />
                     </Route>
                     <Route path="/manager" element={<ManagerConsole />} />
+                    <Route path="*" element={<Error />} />
                 </Routes>
             </BrowserRouter>
         </div>
