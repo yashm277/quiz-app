@@ -3,13 +3,8 @@ import Navbar from './components/customer/navbar.js';
 import CustomerHomepage from './components/customer/customerHomepage.js';
 import ManagerConsole from './components/Manager/managerConsole.js';
 import FruitsVeg from './components/customer/fruits-veg.js';
-import Error from './components/Error/Error.js';  
-import {
-    BrowserRouter,
-    Route,
-    Routes,
-    Outlet,
-} from 'react-router-dom';
+import Error from './components/Error/Error.js';
+import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 
 const NavLayout = () => (
     <>
@@ -25,7 +20,7 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<NavLayout />}>
                         <Route index element={<CustomerHomepage />} />
-                        <Route path="/fruits-veg" element={<FruitsVeg />}/>
+                        <Route path="/fruits-veg" element={<FruitsVeg />} />
                         <Route path="/stationery" />
                         <Route path="/books" />
                     </Route>
@@ -35,6 +30,6 @@ const App = () => {
             </BrowserRouter>
         </div>
     );
-}
+};
 
 export default App;

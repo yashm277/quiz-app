@@ -14,7 +14,9 @@ const FruitsVeg = () => {
         const getItems = async () => {
             onSnapshot(itemsCollectionRef, async () => {
                 const data = await getDocs(itemsCollectionRef);
-                setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+                setItems(
+                    data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+                );
             });
         };
 
@@ -32,6 +34,7 @@ const FruitsVeg = () => {
                             <h3>{item.name}</h3>
                             <p>Price: {item.price}</p>
                             <p>Quantity: {item.quantity}</p>
+                            <button>Add to Cart</button>
                         </div>
                     );
                 })}

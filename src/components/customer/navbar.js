@@ -16,7 +16,7 @@ import './customer.css';
 
 import cart from '../../assets/cart.png';
 
-const pages = ['Home', 'Blog', 'Features', 'Pricing', 'Documentation'];
+const pages = ['Fruits and Vegetables', 'Stationery', 'Books'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {

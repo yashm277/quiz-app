@@ -3,6 +3,13 @@
 }
 
 .ManagerData {
+  margin-top: 1vw;
+  margin-left: 20px;
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
+}
+
+.ManagerData div{
+  background-color: aliceblue;
 }
