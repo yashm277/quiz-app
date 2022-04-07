@@ -11,6 +11,7 @@ import {
     deleteDoc,
     doc,
 } from 'firebase/firestore';
+import ManagerConsolePresentData from './managerConsolePresentData';
 
 const ManagerConsole = () => {
     const [newName, setNewName] = useState('');
@@ -107,34 +108,37 @@ const ManagerConsole = () => {
             />
             <button onClick={createItem}> Create Item</button>
 
+            <h1>Fruits and Vegetables</h1>
             <div className="ManagerData">
-                {items.map((item) => {
-                    return (
-                        <div>
-                            {' '}
-                            <h5>Name: {item.name}</h5>
-                            <h5>Price: {item.price}</h5>
-                            <h5>Quantity: {item.quantity}</h5>
-                            <h5>Category: {item.category}</h5>
-                            <button
-                                onClick={() => {
-                                    deleteItem(item.id);
-                                }}
-                            >
-                                {' '}
-                                Delete Item
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setModalData(item);
-                                    setModalOpen(true);
-                                }}
-                            >
-                                Edit Item
-                            </button>
-                        </div>
-                    );
-                })}
+                <ManagerConsolePresentData
+                    items={items}
+                    category="fruitsveg"
+                    setModalData={setModalData}
+                    setModalOpen={setModalOpen}
+                    deleteItem={deleteItem}
+                />
+            </div>
+
+            <h1>Stationery</h1>
+            <div className='ManagerData'>
+                <ManagerConsolePresentData
+                    items={items}
+                    category="stationery"
+                    setModalData={setModalData}
+                    setModalOpen={setModalOpen}
+                    deleteItem={deleteItem}
+                />
+            </div>
+
+            <h1>Books</h1>
+            <div className='ManagerData'>
+                <ManagerConsolePresentData
+                    items={items}
+                    category="books"
+                    setModalData={setModalData}
+                    setModalOpen={setModalOpen}
+                    deleteItem={deleteItem}
+                />
             </div>
 
             <Modal
@@ -205,7 +209,7 @@ const ManagerConsole = () => {
                         setModalOpen(false);
                     }}
                 >
-                    close
+                    Close
                 </button>
             </Modal>
         </div>
