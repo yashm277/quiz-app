@@ -1,13 +1,17 @@
 const ManagerConsolePresentData = ({ items, category, setModalData, setModalOpen, deleteItem }) => {
+    const categoryTranslate = (category) => {
+        if (category === 'fruitsveg') return 'Fruits & Vegetables'
+        else return category.charAt(0).toUpperCase() + category.slice(1);
+    }
+
     return (
         items.filter(item => item.category === category).map((item) => {
             return (
                 <div>
-                    {' '}
                     <h5>Name: {item.name}</h5>
                     <h5>Price: {item.price}</h5>
                     <h5>Quantity: {item.quantity}</h5>
-                    <h5>Category: {item.category}</h5>
+                    <h5>Category: {categoryTranslate(item.category)}</h5>
                     <button
                         onClick={() => {
                             setModalData(item);
@@ -21,7 +25,7 @@ const ManagerConsolePresentData = ({ items, category, setModalData, setModalOpen
                             deleteItem(item.id);
                         }}
                     >
-                        {' '}
+
                         Delete Item
                     </button>
                 </div>
