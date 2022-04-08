@@ -6,9 +6,14 @@ import './customer.css';
 
 import fruits from '../../assets/fruits.jpeg';
 
-const FruitsVeg = () => {
+const Product = ({category}) => {
     const [items, setItems] = useState([]);
     const itemsCollectionRef = collection(db, 'item');
+
+    const categoryTranslate = (category) => {
+        if (category === 'fruitsveg') return 'Fruits & Vegetables'
+        else return category.charAt(0).toUpperCase() + category.slice(1);
+    }
 
     useEffect(() => {
         const getItems = async () => {
@@ -25,9 +30,9 @@ const FruitsVeg = () => {
 
     return (
         <div>
-            <h3>Fruits and Vegetables</h3>
+            <h3>{categoryTranslate(category)}</h3>
             <div className="category-flex-container">
-                {items.map((item) => {
+                {items.filter(item => item.category === category).map((item) => {
                     return (
                         <div key={item.id}>
                             <img src={fruits} alt="" />
@@ -43,4 +48,4 @@ const FruitsVeg = () => {
     );
 };
 
-export default FruitsVeg;
+export default Product;
