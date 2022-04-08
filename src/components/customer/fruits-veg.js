@@ -29,7 +29,7 @@ const FruitsVeg = () => {
             <div className="category-flex-container">
                 {items.map((item) => {
                     return (
-                        <div>
+                        <div key={item.id}>
                             <img src={fruits} alt="" />
                             <h3>{item.name}</h3>
                             <p>Price: {item.price}</p>
