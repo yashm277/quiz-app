@@ -1,9 +1,6 @@
-const ManagerConsolePresentData = ({ items, category, setModalData, setModalOpen, deleteItem }) => {
-    const categoryTranslate = (category) => {
-        if (category === 'fruitsveg') return 'Fruits & Vegetables'
-        else return category.charAt(0).toUpperCase() + category.slice(1);
-    }
+import categoryTranslate from "../common/categoryTranslate";
 
+const ManagerConsolePresentData = ({ items, category, setModalData, setModalOpen, deleteItem }) => {
     return (
         items.filter(item => item.category === category).map((item) => {
             return (

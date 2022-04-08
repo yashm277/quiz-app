@@ -4,14 +4,13 @@ import './manager.css';
 import { db } from '../../firebase-config.js';
 import {
     collection,
-    getDocs,
     addDoc,
-    onSnapshot,
     updateDoc,
     deleteDoc,
     doc,
 } from 'firebase/firestore';
 import ManagerConsolePresentData from './managerConsolePresentData';
+import getItems from '../common/getItems';
 
 const ManagerConsole = () => {
     const [newName, setNewName] = useState('');
@@ -62,16 +61,7 @@ const ManagerConsole = () => {
     };
 
     useEffect(() => {
-        const getItems = async () => {
-            onSnapshot(itemsCollectionRef, async () => {
-                const data = await getDocs(itemsCollectionRef);
-                setItems(
-                    data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-                );
-            });
-        };
-
-        getItems();
+        getItems(itemsCollectionRef, setItems);
     }, []);
 
     return (

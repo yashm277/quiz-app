@@ -1,31 +1,19 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../firebase-config.js';
-import { collection, getDocs, onSnapshot } from 'firebase/firestore';
+import { collection } from 'firebase/firestore';
+import categoryTranslate from '../common/categoryTranslate.js';
+import getItems from '../common/getItems.js';
 
 import './customer.css';
 
 import fruits from '../../assets/fruits.jpeg';
 
-const Product = ({category}) => {
+const Product = ({ category }) => {
     const [items, setItems] = useState([]);
     const itemsCollectionRef = collection(db, 'item');
 
-    const categoryTranslate = (category) => {
-        if (category === 'fruitsveg') return 'Fruits & Vegetables'
-        else return category.charAt(0).toUpperCase() + category.slice(1);
-    }
-
     useEffect(() => {
-        const getItems = async () => {
-            onSnapshot(itemsCollectionRef, async () => {
-                const data = await getDocs(itemsCollectionRef);
-                setItems(
-                    data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-                );
-            });
-        };
-
-        getItems();
+        getItems(itemsCollectionRef, setItems);
     }, []);
 
     return (

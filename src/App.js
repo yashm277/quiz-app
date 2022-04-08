@@ -21,8 +21,8 @@ const App = () => {
                     <Route path="/" element={<NavLayout />}>
                         <Route index element={<CustomerHomepage />} />
                         <Route path="/fruits-veg" element={<Product category='fruitsveg' />} />
-                        <Route path="/stationery" element={<Product category='stationery' />}/>
-                        <Route path="/books" element={<Product category='books' />}/>
+                        <Route path="/stationery" element={<Product category='stationery' />} />
+                        <Route path="/books" element={<Product category='books' />} />
                     </Route>
                     <Route path="/manager" element={<ManagerConsole />} />
                     <Route path="*" element={<Error />} />
