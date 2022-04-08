@@ -7,7 +7,7 @@ const ManagerConsolePresentData = ({ items, category, setModalData, setModalOpen
     return (
         items.filter(item => item.category === category).map((item) => {
             return (
-                <div>
+                <div key={item.id}>
                     <h5>Name: {item.name}</h5>
                     <h5>Price: {item.price}</h5>
                     <h5>Quantity: {item.quantity}</h5>
