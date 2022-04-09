@@ -9,14 +9,17 @@ import {
     deleteDoc,
     doc,
 } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import ManagerConsolePresentData from './managerConsolePresentData';
 import getItems from '../common/getItems';
 
 const ManagerConsole = () => {
-    const [newName, setNewName] = useState('');
-    const [newPrice, setNewPrice] = useState(0);
-    const [newCategory, setNewCategory] = useState('fruitsveg');
-    const [newQuantity, setNewQuantity] = useState(0);
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState(0);
+    const [category, setCategory] = useState('fruitsveg');
+    const [quantity, setQuantity] = useState(0);
+    const [image, setImage] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
 
     const dropdownItems = [
         { label: 'Fruits And Vegetables', value: 'fruitsveg' },
@@ -33,27 +36,60 @@ const ManagerConsole = () => {
         price: 0,
         category: '',
         quantity: 0,
+        image: null,
+        imageUrl: '',
     });
 
+    // TODO: Needs to be rewritten to be not terrible
+    // TODO??: should deleteItem() delete the image in the database? Probably not
+
+    // Code beyond this point is forsaken by god
+    const storage = getStorage();
+
+    const [createItemVar, setCreateItemVar] = useState(false);
+    const [updateItemVar, setUpdateItemVar] = useState(false);
+
     const createItem = async () => {
-        await addDoc(itemsCollectionRef, {
-            name: newName,
-            price: Number(newPrice),
-            category: newCategory,
-            quantity: Number(newQuantity),
-        });
+        const storageRef = ref(storage, image.name);
+        await uploadBytes(storageRef, image);
+        setImageUrl(await getDownloadURL(storageRef));
+        setCreateItemVar(true);
     };
 
     const updateItem = async (data) => {
-        const itemDoc = doc(db, 'item', data.id);
-        const newFields = {
-            name: data.name,
-            price: Number(data.price),
-            category: data.category,
-            quantity: Number(data.quantity),
-        };
-        await updateDoc(itemDoc, newFields);
-    };
+        if (data.image) {
+            const storageRef = ref(storage, data.image.name);
+            await uploadBytes(storageRef, data.image);
+            setModalData({ ...modalData, imageUrl: await getDownloadURL(storageRef) })
+        }
+        setUpdateItemVar(true);
+    }
+
+    useEffect(async () => {
+        if (createItemVar) {
+            await addDoc(itemsCollectionRef, {
+                name: name,
+                price: Number(price),
+                category: category,
+                quantity: Number(quantity),
+                imageUrl: imageUrl,
+            });
+            setCreateItemVar(false);
+        }
+        if (updateItemVar) {
+            const itemDoc = doc(db, 'item', modalData.id);
+            const newFields = {
+                name: modalData.name,
+                price: Number(modalData.price),
+                category: modalData.category,
+                quantity: Number(modalData.quantity),
+                imageUrl: modalData.imageUrl
+            };
+            await updateDoc(itemDoc, newFields);
+            setUpdateItemVar(false);
+        }
+    }, [createItemVar, updateItemVar])
+    // End of hellspawn code
 
     const deleteItem = async (id) => {
         const itemDoc = doc(db, 'item', id);
@@ -69,20 +105,20 @@ const ManagerConsole = () => {
             <input
                 placeholder="Name"
                 onChange={(e) => {
-                    setNewName(e.target.value);
+                    setName(e.target.value);
                 }}
             />
             <input
                 type="number"
                 placeholder="Price"
                 onChange={(e) => {
-                    setNewPrice(e.target.value);
+                    setPrice(e.target.value);
                 }}
             />
             <select
-                value={newCategory}
+                value={category}
                 onChange={(e) => {
-                    setNewCategory(e.target.value);
+                    setCategory(e.target.value);
                 }}
             >
                 {dropdownItems.map((option) => (
@@ -93,9 +129,10 @@ const ManagerConsole = () => {
                 type="number"
                 placeholder="Quantity"
                 onChange={(e) => {
-                    setNewQuantity(e.target.value);
+                    setQuantity(e.target.value);
                 }}
             />
+            <input type="file" onChange={(e) => { setImage(e.target.files[0]) }} />
             <button onClick={createItem}> Create Item</button>
 
             <h1>Fruits and Vegetables</h1>
@@ -185,6 +222,12 @@ const ManagerConsole = () => {
                             });
                         }}
                     />
+                    <input type="file" onChange={(e) => {
+                        setModalData({
+                            ...modalData,
+                            image: e.target.files[0]
+                        })
+                    }} />
                     <button
                         onClick={() => {
                             updateItem(modalData);

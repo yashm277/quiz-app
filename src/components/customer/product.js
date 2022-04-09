@@ -6,8 +6,6 @@ import getItems from '../common/getItems.js';
 
 import './customer.css';
 
-import fruits from '../../assets/fruits.jpeg';
-
 const Product = ({ category }) => {
     const [items, setItems] = useState([]);
     const itemsCollectionRef = collection(db, 'item');
@@ -23,7 +21,7 @@ const Product = ({ category }) => {
                 {items.filter(item => item.category === category).map((item) => {
                     return (
                         <div key={item.id}>
-                            <img src={fruits} alt="" />
+                            <img src={item.imageUrl} alt="" height={100} width={100} />
                             <h3>{item.name}</h3>
                             <p>Price: {item.price}</p>
                             <p>Quantity: {item.quantity}</p>

@@ -5,6 +5,7 @@ const ManagerConsolePresentData = ({ items, category, setModalData, setModalOpen
         items.filter(item => item.category === category).map((item) => {
             return (
                 <div key={item.id}>
+                    <img src={item.imageUrl} alt="" height={100} width={100} />
                     <h5>Name: {item.name}</h5>
                     <h5>Price: {item.price}</h5>
                     <h5>Quantity: {item.quantity}</h5>
