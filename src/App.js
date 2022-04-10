@@ -1,6 +1,9 @@
 import './App.css';
+import LoginPage from './components/common/loginPage';
 import Navbar from './components/customer/navbar.js';
+import CustomerLogin from './components/customer/customerLogin.js';
 import CustomerHomepage from './components/customer/customerHomepage.js';
+import ManagerLogin from './components/Manager/managerLogin.js';
 import ManagerConsole from './components/Manager/managerConsole.js';
 import Product from './components/customer/product.js';
 import Error from './components/Error/Error.js';
@@ -18,12 +21,15 @@ const App = () => {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<NavLayout />}>
+                    <Route path="/" element={<LoginPage />} />
+                    <Route path="/customer-login" element={<CustomerLogin />} />
+                    <Route path="/customer" element={<NavLayout />}>
                         <Route index element={<CustomerHomepage />} />
-                        <Route path="/fruits-veg" element={<Product category='fruitsveg' />} />
-                        <Route path="/stationery" element={<Product category='stationery' />} />
-                        <Route path="/books" element={<Product category='books' />} />
+                        <Route path="/customer/fruits-veg" element={<Product category='fruitsveg' />} />
+                        <Route path="/customer/stationery" element={<Product category='stationery' />} />
+                        <Route path="/customer/books" element={<Product category='books' />} />
                     </Route>
+                    <Route path="/manager-login" element={<ManagerLogin />} />
                     <Route path="/manager" element={<ManagerConsole />} />
                     <Route path="*" element={<Error />} />
                 </Routes>

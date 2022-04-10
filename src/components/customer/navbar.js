@@ -11,6 +11,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 import './customer.css';
 
@@ -34,9 +36,27 @@ const Navbar = () => {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
+    const navigate = useNavigate();
+    const auth = getAuth();
+    const [display, setDisplay] = useState(false);
+
+    const handleCloseUserMenu = (setting) => {
+        if (setting === 'Logout') {
+            signOut(auth).then(() => {
+                navigate('/');
+            }).catch((error) => {
+                alert(error);
+            });
+        }
         setAnchorElUser(null);
     };
+
+    onAuthStateChanged(auth, (user) => {
+        if (!user) navigate("/customer-login");
+        else setDisplay(true);
+    });
+
+    if (!display) return <></>;
 
     return (
         <AppBar
@@ -165,7 +185,7 @@ const Navbar = () => {
                             {settings.map((setting) => (
                                 <MenuItem
                                     key={setting}
-                                    onClick={handleCloseUserMenu}
+                                    onClick={() => { handleCloseUserMenu(setting) }}
                                 >
                                     <Typography textAlign="center">
                                         {setting}

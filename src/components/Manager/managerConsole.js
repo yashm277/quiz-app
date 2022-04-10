@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import { useNavigate } from 'react-router-dom';
 import './manager.css';
 import { db } from '../../firebase-config.js';
 import {
@@ -10,6 +11,7 @@ import {
     doc,
 } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getAuth, signOut } from "firebase/auth";
 import ManagerConsolePresentData from './managerConsolePresentData';
 import getItems from '../common/getItems';
 
@@ -29,6 +31,15 @@ const ManagerConsole = () => {
 
     const [items, setItems] = useState([]);
     const itemsCollectionRef = collection(db, 'item');
+
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const authToken = sessionStorage.getItem('Manager Auth Token')
+
+    useEffect(() => {
+        if (!authToken) navigate('/manager-login');
+        else getItems(itemsCollectionRef, setItems);
+    }, []);
 
     const [modalOpen, setModalOpen] = useState(false);
     let [modalData, setModalData] = useState({
@@ -96,12 +107,20 @@ const ManagerConsole = () => {
         await deleteDoc(itemDoc);
     };
 
-    useEffect(() => {
-        getItems(itemsCollectionRef, setItems);
-    }, []);
+    const onSignOut = () => {
+        signOut(auth).then(() => {
+            sessionStorage.removeItem('Manager Auth Token');
+            navigate('/');
+        }).catch((error) => {
+            alert(error);
+        });
+    }
+
+    if (!authToken) return <></>;
 
     return (
         <div className="ManagerConsole">
+            <button onClick={onSignOut}>Sign Out</button>
             <input
                 placeholder="Name"
                 onChange={(e) => {

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from '../../firebase-config.js';
 import { collection } from 'firebase/firestore';
 import categoryTranslate from '../common/categoryTranslate.js';
@@ -13,6 +15,17 @@ const Product = ({ category }) => {
     useEffect(() => {
         getItems(itemsCollectionRef, setItems);
     }, []);
+
+    const navigate = useNavigate();
+    const auth = getAuth();
+    const [display, setDisplay] = useState(false);
+
+    onAuthStateChanged(auth, (user) => {
+        if (!user) navigate("/customer-login");
+        else setDisplay(true);
+    });
+
+    if (!display) return <></>;
 
     return (
         <div>
