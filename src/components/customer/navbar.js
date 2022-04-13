@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 import './customer.css';
 
@@ -38,9 +38,9 @@ const Navbar = () => {
 
     const handlePageLink = (page) => {
         setAnchorElNav(null);
-        if (page === 'Fruits and Vegetables') navigate("/customer/fruits-veg");
-        else navigate("/customer/" + page.toLowerCase());
-    }
+        if (page === 'Fruits and Vegetables') navigate('/customer/fruits-veg');
+        else navigate('/customer/' + page.toLowerCase());
+    };
 
     const navigate = useNavigate();
     const auth = getAuth();
@@ -48,17 +48,19 @@ const Navbar = () => {
 
     const handleCloseUserMenu = (setting) => {
         if (setting === 'Logout') {
-            signOut(auth).then(() => {
-                navigate('/');
-            }).catch((error) => {
-                alert(error);
-            });
+            signOut(auth)
+                .then(() => {
+                    navigate('/');
+                })
+                .catch((error) => {
+                    alert(error);
+                });
         }
         setAnchorElUser(null);
     };
 
     onAuthStateChanged(auth, (user) => {
-        if (!user) navigate("/customer-login");
+        if (!user) navigate('/customer-login');
         else setDisplay(true);
     });
 
@@ -77,7 +79,9 @@ const Navbar = () => {
                         variant="h6"
                         noWrap
                         component="div"
-                        onClick={() => { navigate('/customer'); }}
+                        onClick={() => {
+                            navigate('/customer');
+                        }}
                         style={{ cursor: 'pointer' }}
                         sx={{
                             mr: 2,
@@ -124,7 +128,9 @@ const Navbar = () => {
                             {pages.map((page) => (
                                 <MenuItem
                                     key={page}
-                                    onClick={() => { handlePageLink(page); }}
+                                    onClick={() => {
+                                        handlePageLink(page);
+                                    }}
                                 >
                                     <Typography textAlign="center">
                                         {page}
@@ -137,7 +143,9 @@ const Navbar = () => {
                         variant="h6"
                         noWrap
                         component="div"
-                        onClick={() => { navigate('/customer'); }}
+                        onClick={() => {
+                            navigate('/customer');
+                        }}
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'flex', md: 'none' },
@@ -155,7 +163,9 @@ const Navbar = () => {
                             <Button
                                 className="button-text"
                                 key={page}
-                                onClick={() => { handlePageLink(page); }}
+                                onClick={() => {
+                                    handlePageLink(page);
+                                }}
                                 sx={{ my: 2, color: 'black', display: 'block' }}
                             >
                                 {page}
@@ -163,17 +173,21 @@ const Navbar = () => {
                         ))}
                     </Box>
 
-                    <Box sx={{
-                        flexGrow: 0,
-                        height: 40,
-                        width: 40,
-                        paddingRight: 1,
-                    }}
+                    <Box
+                        className="cart-container"
+                        sx={{
+                            flexGrow: 0,
+                            height: 40,
+                            width: 40,
+                            paddingRight: 1,
+                        }}
                         style={{ cursor: 'pointer' }}
                         component="img"
                         src={cart}
                         alt="Cart"
-                        onClick={() => {navigate('/customer/cart')}}
+                        onClick={() => {
+                            navigate('/customer/cart');
+                        }}
                     />
 
                     <Box sx={{ flexGrow: 0 }}>
@@ -207,7 +221,9 @@ const Navbar = () => {
                             {settings.map((setting) => (
                                 <MenuItem
                                     key={setting}
-                                    onClick={() => { handleCloseUserMenu(setting) }}
+                                    onClick={() => {
+                                        handleCloseUserMenu(setting);
+                                    }}
                                 >
                                     <Typography textAlign="center">
                                         {setting}
@@ -218,7 +234,7 @@ const Navbar = () => {
                     </Box>
                 </Toolbar>
             </Container>
-        </AppBar >
+        </AppBar>
     );
 };
 export default Navbar;

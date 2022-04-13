@@ -133,6 +133,10 @@ body {
     /* change number of columns on screen */
 }
 
+.cart-container{
+    margin-right: 3vw;
+}
+
 .category-flex-container img{
     width: 150px;
     margin-top: 10px;
