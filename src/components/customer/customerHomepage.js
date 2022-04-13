@@ -11,9 +11,14 @@ const Homepage = () => {
     const auth = getAuth();
     const [display, setDisplay] = useState(false);
 
+    const [user, setUser] = useState(null);
+
     onAuthStateChanged(auth, (user) => {
         if (!user) navigate("/customer-login");
-        else setDisplay(true);
+        else {
+            setDisplay(true);
+            setUser(user);
+        }
     });
 
     if (!display) return <></>;

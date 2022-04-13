@@ -163,6 +163,19 @@ const Navbar = () => {
                         ))}
                     </Box>
 
+                    <Box sx={{
+                        flexGrow: 0,
+                        height: 40,
+                        width: 40,
+                        paddingRight: 1,
+                    }}
+                        style={{ cursor: 'pointer' }}
+                        component="img"
+                        src={cart}
+                        alt="Cart"
+                        onClick={() => {navigate('/customer/cart')}}
+                    />
+
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton

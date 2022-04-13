@@ -2,19 +2,55 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from '../../firebase-config.js';
-import { collection } from 'firebase/firestore';
+import { collection, setDoc, doc, getDoc, onSnapshot } from 'firebase/firestore';
 import categoryTranslate from '../common/categoryTranslate.js';
 import getItems from '../common/getItems.js';
 
 import './customer.css';
 
 const Product = ({ category }) => {
-    const [items, setItems] = useState([]);
+    const [user, setUser] = useState(null);
+    const [items, setItems] = useState([{}]);
+    const [cart, setCart] = useState([]);
+    const [cartCollectionRef, setCartCollectionRef] = useState(null);
     const itemsCollectionRef = collection(db, 'item');
+    // To prevent infinite loop when calling data from firestore.
+    const [ignoreCheck, setIgnoreCheck] = useState(false);
 
     useEffect(() => {
         getItems(itemsCollectionRef, setItems);
     }, []);
+
+
+    useEffect(() => {
+        if (cartCollectionRef) {
+            onSnapshot(cartCollectionRef, async () => {
+                const data = await getDoc(cartCollectionRef);
+
+                let temp = [];
+
+                if (data.data()) {
+                    for (let i = 0; i < Object.keys(data.data()).length; i++) {
+                        temp.push({ id: Object.keys(data.data())[i], quantity: Object.values(data.data())[i] })
+                    }
+                }
+
+                setIgnoreCheck(true);
+                setCart(temp);
+            });
+        }
+    }, [cartCollectionRef])
+
+    useEffect(async () => {
+        if (ignoreCheck) setIgnoreCheck(false);
+        else if (user) {
+            setCartCollectionRef(await doc(db, 'cart', user.email));
+
+            for (let i = 0; i < cart.length; i++) {
+                setDoc(cartCollectionRef, { [cart[i].id]: cart[i].quantity }, { merge: true })
+            }
+        }
+    }, [user, cart]);
 
     const navigate = useNavigate();
     const auth = getAuth();
@@ -22,8 +58,26 @@ const Product = ({ category }) => {
 
     onAuthStateChanged(auth, (user) => {
         if (!user) navigate("/customer-login");
-        else setDisplay(true);
+        else {
+            setUser(user);
+            setDisplay(true);
+        }
     });
+
+    const addToCart = (id) => {
+        let temp = [...cart];
+        let item = temp.filter((item) => item.id === id);
+        temp = temp.filter((item) => item.id !== id);
+        if (item[0]) temp.push({ id: id, quantity: item[0].quantity + 1 });
+        else temp.push({ id: id, quantity: 1 });
+        setCart(temp);
+    }
+
+    const showQuantity = (id) => {
+        let temp = cart.findIndex(i => i.id === id);
+        if (temp !== -1) return cart[temp].quantity;
+        else return 0;
+    }
 
     if (!display) return <></>;
 
@@ -38,7 +92,8 @@ const Product = ({ category }) => {
                             <h3>{item.name}</h3>
                             <p>Price: {item.price}</p>
                             <p>Quantity: {item.quantity}</p>
-                            <button>Add to Cart</button>
+                            <button onClick={() => { addToCart(item.id); }}>Add to Cart</button>
+                            Cart: {showQuantity(item.id)}
                         </div>
                     );
                 })}
