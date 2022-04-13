@@ -36,6 +36,12 @@ const Navbar = () => {
         setAnchorElNav(null);
     };
 
+    const handlePageLink = (page) => {
+        setAnchorElNav(null);
+        if (page === 'Fruits and Vegetables') navigate("/customer/fruits-veg");
+        else navigate("/customer/" + page.toLowerCase());
+    }
+
     const navigate = useNavigate();
     const auth = getAuth();
     const [display, setDisplay] = useState(false);
@@ -71,6 +77,8 @@ const Navbar = () => {
                         variant="h6"
                         noWrap
                         component="div"
+                        onClick={() => { navigate('/customer'); }}
+                        style={{ cursor: 'pointer' }}
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -116,7 +124,7 @@ const Navbar = () => {
                             {pages.map((page) => (
                                 <MenuItem
                                     key={page}
-                                    onClick={handleCloseNavMenu}
+                                    onClick={() => { handlePageLink(page); }}
                                 >
                                     <Typography textAlign="center">
                                         {page}
@@ -129,6 +137,7 @@ const Navbar = () => {
                         variant="h6"
                         noWrap
                         component="div"
+                        onClick={() => { navigate('/customer'); }}
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'flex', md: 'none' },
@@ -146,7 +155,7 @@ const Navbar = () => {
                             <Button
                                 className="button-text"
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={() => { handlePageLink(page); }}
                                 sx={{ my: 2, color: 'black', display: 'block' }}
                             >
                                 {page}
@@ -196,7 +205,7 @@ const Navbar = () => {
                     </Box>
                 </Toolbar>
             </Container>
-        </AppBar>
+        </AppBar >
     );
 };
 export default Navbar;
