@@ -11,8 +11,6 @@ import {
     deleteDoc,
     getDoc
 } from 'firebase/firestore';
-import categoryTranslate from "../common/categoryTranslate";
-// import getCart from './getCart.js';
 
 const Cart = () => {
     const [user, setUser] = useState(null);
