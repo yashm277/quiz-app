@@ -183,3 +183,10 @@ body {
         margin-left: -4.6vw;
     }
 }
+
+.cart-item-container{
+    display: flex;
+    margin-top: 3vw;
+    margin-left: 5vw;
+    gap: 4vw;
+}
