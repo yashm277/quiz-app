@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from '../../firebase-config.js';
-import { collection, setDoc, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { collection, setDoc, doc, getDoc, onSnapshot, updateDoc, deleteField } from 'firebase/firestore';
 import categoryTranslate from '../common/categoryTranslate.js';
 import getItems from '../common/getItems.js';
 
@@ -47,7 +47,12 @@ const Product = ({ category }) => {
             setCartCollectionRef(await doc(db, 'cart', user.email));
 
             for (let i = 0; i < cart.length; i++) {
-                setDoc(cartCollectionRef, { [cart[i].id]: cart[i].quantity }, { merge: true })
+                if (!cart[i].quantity) {
+                    await updateDoc(cartCollectionRef, {
+                        [cart[i].id]: deleteField()
+                    });
+                }
+                else setDoc(cartCollectionRef, { [cart[i].id]: cart[i].quantity }, { merge: true });
             }
         }
     }, [user, cart]);
@@ -73,10 +78,34 @@ const Product = ({ category }) => {
         setCart(temp);
     }
 
+    const removeFromCart = (id) => {
+        let temp = [...cart];
+        let item = temp.filter((item) => item.id === id);
+        temp = temp.filter((item) => item.id !== id);
+        if (item[0].quantity <= 0) throw ((error) => alert(error));
+        temp.push({ id: id, quantity: item[0].quantity - 1 })
+        setCart(temp);
+    }
+
     const showQuantity = (id) => {
         let temp = cart.findIndex(i => i.id === id);
         if (temp !== -1) return cart[temp].quantity;
         else return 0;
+    }
+
+    const removeButtonDisable = (item) => {
+        let temp = cart.findIndex(i => i.id === item.id);
+        if (temp === -1 || !cart[temp].quantity) return true;
+        return false;
+    }
+
+    const addButtonDisable = (item) => {
+        if (!item.quantity) return true;
+
+        let temp = cart.findIndex(i => i.id === item.id);
+        if (temp === -1) return false;
+        if (item.quantity > cart[temp].quantity) return false;
+        return true;
     }
 
     if (!display) return <></>;
@@ -92,7 +121,17 @@ const Product = ({ category }) => {
                             <h3>{item.name}</h3>
                             <p>Price: {item.price}</p>
                             <p>Quantity: {item.quantity}</p>
-                            <button onClick={() => { addToCart(item.id); }}>Add to Cart</button>
+                            <button
+                                onClick={() => { removeFromCart(item.id); }}
+                                disabled={removeButtonDisable(item)}
+                            >
+                                Remove from Cart
+                            </button>
+                            <button
+                                onClick={() => { addToCart(item.id); }}
+                                disabled={addButtonDisable(item)}>
+                                Add to Cart
+                            </button>
                             Cart: {showQuantity(item.id)}
                         </div>
                     );
