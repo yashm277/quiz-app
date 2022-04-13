@@ -107,6 +107,8 @@ const Cart = () => {
 
         const cartDoc = doc(db, 'cart', user.email)
         await deleteDoc(cartDoc);
+
+        navigate('/customer/thank-you');
     }
 
     if (!display) return <></>;

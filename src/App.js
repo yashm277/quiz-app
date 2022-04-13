@@ -7,6 +7,7 @@ import ManagerLogin from './components/Manager/managerLogin.js';
 import ManagerConsole from './components/Manager/managerConsole.js';
 import Product from './components/customer/product.js';
 import Cart from './components/customer/cart';
+import ThankYou from './components/customer/thankYou';
 import Error from './components/Error/Error.js';
 import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 
@@ -30,6 +31,7 @@ const App = () => {
                         <Route path="/customer/stationery" element={<Product category='stationery' />} />
                         <Route path="/customer/books" element={<Product category='books' />} />
                         <Route path="/customer/cart" element={<Cart />} />
+                        <Route path="/customer/thank-you" element={<ThankYou />} />
                     </Route>
                     <Route path="/manager-login" element={<ManagerLogin />} />
                     <Route path="/manager" element={<ManagerConsole />} />
