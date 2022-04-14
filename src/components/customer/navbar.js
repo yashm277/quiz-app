@@ -200,8 +200,8 @@ const Navbar = () => {
                                 sx={{ p: 0 }}
                             >
                                 <Avatar
-                                    alt="Remy Sharp"
-                                    src="/static/images/avatar/1.jpg"
+                                    alt="DP"
+                                    src={localStorage.getItem('profilePicture')}
                                 />
                             </IconButton>
                         </Tooltip>
