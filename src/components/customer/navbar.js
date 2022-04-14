@@ -14,12 +14,14 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
+// TODO: profile, cart bg, last priority: login pages
+
 import './customer.css';
 
 import cart from '../../assets/cart.png';
 
 const pages = ['Fruits and Vegetables', 'Stationery', 'Books'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -39,6 +41,7 @@ const Navbar = () => {
     const handlePageLink = (page) => {
         setAnchorElNav(null);
         if (page === 'Fruits and Vegetables') navigate('/customer/fruits-veg');
+        if (page === 'Logout') navigate('/');
         else navigate('/customer/' + page.toLowerCase());
     };
 
@@ -223,6 +226,7 @@ const Navbar = () => {
                                     key={setting}
                                     onClick={() => {
                                         handleCloseUserMenu(setting);
+                                        handlePageLink(setting);
                                     }}
                                 >
                                     <Typography textAlign="center">
