@@ -41,7 +41,7 @@ const Navbar = () => {
     const handlePageLink = (page) => {
         setAnchorElNav(null);
         if (page === 'Fruits and Vegetables') navigate('/customer/fruits-veg');
-        if (page === 'Logout') navigate('/');
+        else if (page === 'Logout') navigate('/');
         else navigate('/customer/' + page.toLowerCase());
     };
 
