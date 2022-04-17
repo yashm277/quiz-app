@@ -1,7 +1,6 @@
 import './App.css';
 import LoginPage from './components/common/loginPage';
 import Navbar from './components/customer/navbar.js';
-import CustomerLogin from './components/customer/customerLogin.js';
 import CustomerHomepage from './components/customer/customerHomepage.js';
 import ManagerLogin from './components/Manager/managerLogin.js';
 import ManagerConsole from './components/Manager/managerConsole.js';
@@ -25,7 +24,7 @@ const App = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
-                    <Route path="/customer-login" element={<CustomerLogin />} />
+                    {/* <Route path="/customer-login" element={<CustomerLogin />} /> */}
                     <Route path="/customer" element={<NavLayout />}>
                         <Route index element={<CustomerHomepage />} />
                         <Route

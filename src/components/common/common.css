@@ -1,0 +1,27 @@
+body{
+    background-color: #f4f7ff;
+    background-image: url('../../assets/clouds.png');
+    background-repeat: repeat;
+    background-size: 90%;
+}
+
+.sign-btn-container{
+    margin-top: 10%;
+    padding: 2vw;
+}
+
+.sign-btn-container button{
+    background-color: #4cafa5; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.ctmsign{
+    margin-top: 2vw;
+}
