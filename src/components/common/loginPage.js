@@ -32,7 +32,7 @@ const LoginPage = () => {
                             signInWithRedirect(auth, provider);
                         }}
                     >
-                        Quiz App Login with BITS mail
+                        Quiz App Login with mail
                     </button>
                 </div>
             </div>
