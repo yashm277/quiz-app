@@ -20,7 +20,7 @@ const LoginPage = () => {
 
     return (
         <div>
-            <h2>Welcome to Akshay Supermarket!!</h2>
+            <h2>Welcome to the Quiz App!!</h2>
             <div className="sign-btn-container">
                 <button onClick={() => navigate('/manager-login')}>
                     Manager Login
@@ -32,7 +32,7 @@ const LoginPage = () => {
                             signInWithRedirect(auth, provider);
                         }}
                     >
-                        Customer Login with BITS mail
+                        Quiz App Login with BITS mail
                     </button>
                 </div>
             </div>

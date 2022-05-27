@@ -1,271 +1,186 @@
-import { useState, useEffect } from 'react';
-import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
-import './manager.css';
-import { db } from '../../firebase-config.js';
-import {
-    collection,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-} from 'firebase/firestore';
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { getAuth, signOut } from "firebase/auth";
-import ManagerConsolePresentData from './managerConsolePresentData';
-import getItems from '../common/getItems';
+import FormDialog from './popupDialog';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+// import Link from '@mui/material/Link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const ManagerConsole = () => {
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState(0);
-    const [category, setCategory] = useState('fruitsveg');
-    const [quantity, setQuantity] = useState(0);
-    const [image, setImage] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+// import './admin.css';
 
-    const dropdownItems = [
-        { label: 'Fruits And Vegetables', value: 'fruitsveg' },
-        { label: 'Stationery', value: 'stationery' },
-        { label: 'Books', value: 'books' },
-    ];
+import plus from '../../assets/plus.png';
+import fillerImg from '../../assets/fillerImg.png';
 
-    const [items, setItems] = useState([]);
-    const itemsCollectionRef = collection(db, 'item');
+const cards = [1, 2];
 
-    const auth = getAuth();
-    const navigate = useNavigate();
-    const authToken = sessionStorage.getItem('Manager Auth Token')
+const theme = createTheme();
 
-    useEffect(() => {
-        if (!authToken) navigate('/manager-login');
-        else getItems(itemsCollectionRef, setItems);
-    }, []);
-
-    const [modalOpen, setModalOpen] = useState(false);
-    let [modalData, setModalData] = useState({
-        name: '',
-        price: 0,
-        category: '',
-        quantity: 0,
-        image: null,
-        imageUrl: '',
-    });
-
-    // TODO: Needs to be rewritten to be not terrible
-    // TODO??: should deleteItem() delete the image in the database? Probably not
-
-    // Code beyond this point is forsaken by god
-    const storage = getStorage();
-
-    const [createItemVar, setCreateItemVar] = useState(false);
-    const [updateItemVar, setUpdateItemVar] = useState(false);
-
-    const createItem = async () => {
-        const storageRef = ref(storage, image.name);
-        await uploadBytes(storageRef, image);
-        setImageUrl(await getDownloadURL(storageRef));
-        setCreateItemVar(true);
-    };
-
-    const updateItem = async (data) => {
-        if (data.image) {
-            const storageRef = ref(storage, data.image.name);
-            await uploadBytes(storageRef, data.image);
-            setModalData({ ...modalData, imageUrl: await getDownloadURL(storageRef) })
-        }
-        setUpdateItemVar(true);
-    }
-
-    useEffect(async () => {
-        if (createItemVar) {
-            await addDoc(itemsCollectionRef, {
-                name: name,
-                price: Number(price),
-                category: category,
-                quantity: Number(quantity),
-                imageUrl: imageUrl,
-            });
-            setCreateItemVar(false);
-        }
-        if (updateItemVar) {
-            const itemDoc = doc(db, 'item', modalData.id);
-            const newFields = {
-                name: modalData.name,
-                price: Number(modalData.price),
-                category: modalData.category,
-                quantity: Number(modalData.quantity),
-                imageUrl: modalData.imageUrl
-            };
-            await updateDoc(itemDoc, newFields);
-            setUpdateItemVar(false);
-        }
-    }, [createItemVar, updateItemVar])
-    // End of hellspawn code
-
-    const deleteItem = async (id) => {
-        const itemDoc = doc(db, 'item', id);
-        await deleteDoc(itemDoc);
-    };
-
-    const onSignOut = () => {
-        signOut(auth).then(() => {
-            sessionStorage.removeItem('Manager Auth Token');
-            navigate('/');
-        }).catch((error) => {
-            alert(error);
-        });
-    }
-
-    if (!authToken) return <></>;
-
+export default function Album() {
     return (
-        <div className="ManagerConsole">
-            <button onClick={onSignOut}>Sign Out</button>
-            <input
-                placeholder="Name"
-                onChange={(e) => {
-                    setName(e.target.value);
-                }}
-            />
-            <input
-                type="number"
-                placeholder="Price"
-                onChange={(e) => {
-                    setPrice(e.target.value);
-                }}
-            />
-            <select
-                value={category}
-                onChange={(e) => {
-                    setCategory(e.target.value);
-                }}
-            >
-                {dropdownItems.map((option) => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-            </select>
-            <input
-                type="number"
-                placeholder="Quantity"
-                onChange={(e) => {
-                    setQuantity(e.target.value);
-                }}
-            />
-            <input type="file" onChange={(e) => { setImage(e.target.files[0]) }} />
-            <button onClick={createItem}> Create Item</button>
-
-            <h1>Fruits and Vegetables</h1>
-            <div className="ManagerData">
-                <ManagerConsolePresentData
-                    items={items}
-                    category="fruitsveg"
-                    setModalData={setModalData}
-                    setModalOpen={setModalOpen}
-                    deleteItem={deleteItem}
-                />
-            </div>
-
-            <h1>Stationery</h1>
-            <div className='ManagerData'>
-                <ManagerConsolePresentData
-                    items={items}
-                    category="stationery"
-                    setModalData={setModalData}
-                    setModalOpen={setModalOpen}
-                    deleteItem={deleteItem}
-                />
-            </div>
-
-            <h1>Books</h1>
-            <div className='ManagerData'>
-                <ManagerConsolePresentData
-                    items={items}
-                    category="books"
-                    setModalData={setModalData}
-                    setModalOpen={setModalOpen}
-                    deleteItem={deleteItem}
-                />
-            </div>
-
-            <Modal
-                ariaHideApp={false}
-                isOpen={modalOpen}
-                onRequestClose={() => {
-                    setModalOpen(false);
-                }}
-                contentLabel="Update"
-            >
-                <div>
-                    <input
-                        placeholder="Name"
-                        value={modalData.name}
-                        onChange={(e) => {
-                            setModalData({
-                                ...modalData,
-                                name: e.target.value,
-                            });
-                        }}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Price"
-                        value={modalData.price}
-                        onChange={(e) => {
-                            setModalData({
-                                ...modalData,
-                                price: e.target.value,
-                            });
-                        }}
-                    />
-                    <select
-                        value={modalData.category}
-                        onChange={(e) => {
-                            setModalData({
-                                ...modalData,
-                                category: e.target.value,
-                            });
-                        }}
-                    >
-                        {dropdownItems.map((option) => (
-                            <option key={option.value} value={option.value}>{option.label}</option>
-                        ))}
-                    </select>
-                    <input
-                        type="number"
-                        placeholder="Quantity"
-                        value={modalData.quantity}
-                        onChange={(e) => {
-                            setModalData({
-                                ...modalData,
-                                quantity: e.target.value,
-                            });
-                        }}
-                    />
-                    <input type="file" onChange={(e) => {
-                        setModalData({
-                            ...modalData,
-                            image: e.target.files[0]
-                        })
-                    }} />
-                    <button
-                        onClick={() => {
-                            updateItem(modalData);
-                            setModalOpen(false);
-                        }}
-                    >
-                        Update Item
-                    </button>
-                </div>
-                <button
-                    onClick={() => {
-                        setModalOpen(false);
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <AppBar position="relative">
+                <Toolbar>
+                    {/* <CameraIcon sx={{ mr: 2 }} /> */}
+                    <Typography variant="h6" color="inherit" noWrap>
+                        Make Quiz
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <main>
+                {/* Hero unit */}
+                <Box
+                    sx={{
+                        bgcolor: 'background.paper',
+                        pt: 8,
+                        pb: 2,
                     }}
                 >
-                    Close
-                </button>
-            </Modal>
-        </div>
+                    <Container maxWidth="sm">
+                        {/* <Typography
+                            component="h1"
+                            variant="h2"
+                            align="center"
+                            color="text.primary"
+                            gutterBottom
+                        >
+                            Make Quiz
+                        </Typography> */}
+                        <Typography
+                            variant="h5"
+                            align="center"
+                            color="text.secondary"
+                            paragraph
+                        >
+                            Make a new quiz or edit a recent one.
+                        </Typography>
+                        {/* <Stack
+                            sx={{ pt: 4 }}
+                            direction="row"
+                            spacing={2}
+                            justifyContent="center"
+                        >
+                            <Button variant="contained">
+                                Main call to action
+                            </Button>
+                            <Button variant="outlined">Secondary action</Button>
+                        </Stack> */}
+                    </Container>
+                </Box>
+                <Container sx={{ py: 8 }} maxWidth="md">
+                    {/* End hero unit */}
+                    <Grid container spacing={4} className="padding-remove">
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Card
+                                sx={{
+                                    height: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                }}
+                            >
+                                <CardMedia
+                                    component="img"
+                                    sx={{
+                                        // 16:9
+                                        pt: '0%',
+                                    }}
+                                    image={plus}
+                                    alt="New Quiz"
+                                />
+                                <CardContent sx={{ flexGrow: 1 }}>
+                                    <Typography
+                                        gutterBottom
+                                        variant="h5"
+                                        component="h2"
+                                    >
+                                        New Quiz
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    {/* <Button size="small">Get Started</Button> */}
+                                    <FormDialog></FormDialog>
+                                    {/* <Button size="small">Edit</Button> */}
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                        {cards.map((card) => (
+                            <Grid item key={card} xs={12} sm={6} md={4}>
+                                <Card
+                                    sx={{
+                                        height: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    }}
+                                >
+                                    <CardMedia
+                                        component="img"
+                                        sx={{
+                                            // 16:9
+                                            pt: '0%',
+                                        }}
+                                        image={fillerImg}
+                                        alt="random"
+                                    />
+                                    <CardContent sx={{ flexGrow: 1 }}>
+                                        <Typography
+                                            gutterBottom
+                                            variant="h5"
+                                            component="h2"
+                                        >
+                                            Quiz {card}
+                                        </Typography>
+                                        <Typography>
+                                            Date Placeholder
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small">View</Button>
+                                        <Button size="small">Edit</Button>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
+            </main>
+            {/* Footer */}
+            {/* <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+                <Typography variant="h6" align="center" gutterBottom>
+                    Footer
+                </Typography>
+                <Typography
+                    variant="subtitle1"
+                    align="center"
+                    color="text.secondary"
+                    component="p"
+                >
+                    Something here to give the footer a purpose!
+                </Typography>
+            </Box> */}
+            {/* End footer */}
+        </ThemeProvider>
     );
-};
+}
 
-export default ManagerConsole;
+
+// ---IF ALL ELSE STOPS, COME BACK HERE
+
+
+// import React from 'react'
+
+// function managerConsole() {
+//   return (
+//     <div>managerConsole</div>
+//   )
+// }
+
+// export default managerConsole

@@ -20,7 +20,7 @@ import './customer.css';
 
 import cart from '../../assets/cart.png';
 
-const pages = ['Fruits and Vegetables', 'Stationery', 'Books'];
+const pages = ['Histogram', 'ABC', 'XYZ'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
@@ -40,7 +40,7 @@ const Navbar = () => {
 
     const handlePageLink = (page) => {
         setAnchorElNav(null);
-        if (page === 'Fruits and Vegetables') navigate('/customer/fruits-veg');
+        if (page === 'Histogram') navigate('/customer/fruits-veg');
         else if (page === 'Logout') navigate('/');
         else navigate('/customer/' + page.toLowerCase());
     };

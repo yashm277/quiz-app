@@ -25,24 +25,12 @@ const Homepage = () => {
 
     return (
         <div className="home">
-            <h1>Welcome to Akshay!</h1>
-            <h3>Categories</h3>
+            <h1>Welcome to the Quiz App!</h1>
+            <h3>Quizzes</h3>
             <div className="dash">
                 <a href="/customer/fruits-veg" className="dashEl">
-                    <img src={fruits} alt="Fruits and Vegetables" />
-                    <p>Fruits and Vegetables</p>
-                </a>
-                <a href="/customer/stationery" className="dashEl">
-                    <img src={stationery} alt="Stationery" />
-                    <p>Stationery</p>
-                </a>
-                <a href="/customer/books" className="dashEl">
-                    <img src={books} alt="Books" />
-                    <p>Books</p>
-                </a>
-                <a href="/customer/books" className="dashEl">
-                    <img src={books} alt="Books" />
-                    <p>Books</p>
+                    <img src={fruits} alt="Histogram" />
+                    <p>Quiz 1</p>
                 </a>
             </div>
         </div>
