@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Profile = () => {
     const auth = getAuth();
     const navigate = useNavigate();
-    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState();
 
     const loginBtnFn = () => {
         signOut(auth)
