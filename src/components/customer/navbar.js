@@ -40,7 +40,7 @@ const Navbar = () => {
 
     const handlePageLink = (page) => {
         setAnchorElNav(null);
-        if (page === 'Histogram') navigate('/customer/fruits-veg');
+        if (page === 'Histogram') navigate('/customer/stats');
         else if (page === 'Logout') navigate('/');
         else navigate('/customer/' + page.toLowerCase());
     };
