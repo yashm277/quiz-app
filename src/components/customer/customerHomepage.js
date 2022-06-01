@@ -8,23 +8,6 @@ import Categories from "../../data/Categories";
 import "./customerHomepage.css";
 
 
-// const Homepage = () => {
-//     const navigate = useNavigate();
-//     const auth = getAuth();
-//     const [display, setDisplay] = useState(false);
-
-//     const [user, setUser] = useState(null);
-
-//     onAuthStateChanged(auth, (user) => {
-//         if (!user) navigate("/customer-login");
-//         else {
-//             setDisplay(true);
-//             setUser(user);
-//         }
-//     });
-
-//     if (!display) return <></>;
-
 const CustomerHomepage = ({ name, setName, fetchQuestions }) => {
     const [category, setCategory] = useState("");
     const [difficulty, setDifficulty] = useState("");
@@ -103,3 +86,28 @@ const CustomerHomepage = ({ name, setName, fetchQuestions }) => {
 };
 
 export default CustomerHomepage;
+
+
+// import React from 'react'
+// import { doc, getDoc} from "firebase/firestore";
+// import {db} from '../../firebase-config';
+
+
+// function customerHomepage() {
+//   const docRef = doc(db, "data", "quiz1");
+// const docSnap =  getDoc(docRef);
+// if (docSnap.exists()) {
+//   console.log("Document data:", docSnap.data());
+// } else {
+//   // doc.data() will be undefined in this case
+//   console.log("No such document!");
+// }
+
+//   return (
+//     <div>
+//       <h1>Hello</h1>
+//     </div>
+//   )
+// }
+
+// export default customerHomepage
