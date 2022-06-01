@@ -9,6 +9,7 @@ import Histogram from './components/customer/histogram';
 import Cart from './components/customer/cart';
 import ThankYou from './components/customer/thankYou';
 import Error from './components/Error/Error.js';
+import QuizMaker from './components/Manager/quizMaker';
 import Profile from './components/customer/profile.js';
 import {
     BrowserRouter,
@@ -57,6 +58,7 @@ const App = () => {
                     </Route>
                     <Route path="/manager-login" element={<ManagerLogin />} />
                     <Route path="/manager" element={<ManagerConsole />} />
+                    <Route path="/quiz-maker/:id" element={<QuizMaker />} />
                     <Route path="*" element={<Error />} />
                 </Routes>
             </BrowserRouter>

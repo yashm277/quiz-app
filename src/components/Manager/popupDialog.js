@@ -8,6 +8,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { v4 as uuidv4 } from 'uuid';
+
+export let uniqueID;
 
 export default function FormDialog() {
     const navigate = useNavigate();
@@ -30,7 +33,8 @@ export default function FormDialog() {
         if (quizName !== '') {
             setOpen(false);
             console.log(quizName);
-            navigate(`/quiz-maker/${Date.now()}`);
+            uniqueID = uuidv4();
+            navigate(`/quiz-maker/${uniqueID}`);
         } else {
             alert('Quiz name cannot be an empty field.');
         }
