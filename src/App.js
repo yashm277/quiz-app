@@ -10,6 +10,7 @@ import Cart from './components/customer/cart';
 import ThankYou from './components/customer/thankYou';
 import Error from './components/Error/Error.js';
 import QuizMaker from './components/Manager/quizMaker';
+import QuizTaker from './components/customer/quizTaker';
 import Profile from './components/customer/profile.js';
 import {
     BrowserRouter,
@@ -41,10 +42,6 @@ const App = () => {
                     <Route path="/customer" element={<NavLayout />}>
                         <Route index element={<CustomerHomepage />} />
                         <Route
-                            path="/customer/stationery"
-                            element={<Product category="stationery" />}
-                        />
-                        <Route
                             path="/customer/books"
                             element={<Product category="books" />}
                         />
@@ -58,6 +55,7 @@ const App = () => {
                     </Route>
                     <Route path="/manager-login" element={<ManagerLogin />} />
                     <Route path="/manager" element={<ManagerConsole />} />
+                    <Route path="/quiz-taker" element={<QuizTaker />} />
                     <Route path="/quiz-maker/:id" element={<QuizMaker />} />
                     <Route path="*" element={<Error />} />
                 </Routes>
