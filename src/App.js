@@ -11,6 +11,7 @@ import ThankYou from './components/customer/thankYou';
 import Error from './components/Error/Error.js';
 import QuizMaker from './components/Manager/quizMaker';
 import QuizTaker from './components/customer/quizTaker';
+import Result from './components/customer/result';
 import Profile from './components/customer/profile.js';
 import {
     BrowserRouter,
@@ -57,6 +58,7 @@ const App = () => {
                     <Route path="/manager" element={<ManagerConsole />} />
                     <Route path="/quiz-taker" element={<QuizTaker />} />
                     <Route path="/quiz-maker/:id" element={<QuizMaker />} />
+                    <Route path="/results" element={<Result />} />
                     <Route path="*" element={<Error />} />
                 </Routes>
             </BrowserRouter>

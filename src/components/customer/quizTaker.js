@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { db } from '../firebase';
+import { db } from '../../firebase-config.js';
 import {
     collection,
     getDocs,
@@ -14,10 +14,13 @@ function QuizTaker() {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [userAnswer, setUserAnswer] = useState(0);
-    const usersCollectionRef = collection(db, 'users');
+    const usersCollectionRef = collection(
+        db,
+        '4b3a75e0-4eec-4b9b-a8b1-d0432c7f08ee'
+    );
 
     const updateUser = async (id, age) => {
-        const userDoc = doc(db, 'users', id);
+        const userDoc = doc(db, '4b3a75e0-4eec-4b9b-a8b1-d0432c7f08ee', id);
         const newFields = { userAnswer: userAnswer };
         await updateDoc(userDoc, newFields);
     };

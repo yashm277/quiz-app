@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { db } from '../firebase';
+import { db } from '../../firebase-config';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
-import './Result.css';
+import './result.css';
 
 function Result() {
     const [users, setUsers] = useState([]);
