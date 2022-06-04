@@ -145,7 +145,57 @@ function ManagerHome() {
                 <button onClick={createUser}> Create Question</button>
             </div>
 
-            {users.map((user) => {
+
+
+
+            {users.name1?users.map((user) => {
+                return (
+                    <div>
+                        {' '}
+                        <h1>Question: {user.name}</h1>
+                        <h1>Answer: {user.age}</h1>
+                        <button
+                            onClick={() => {
+                                updateUser(user.id, user.age);
+                            }}
+                        >
+                            {' '}
+                            Increase Answer
+                        </button>
+                        <button
+                            onClick={() => {
+                                deleteUser(user.id);
+                            }}
+                        >
+                            {' '}
+                            Delete Question
+                        </button>
+                    </div>
+                );
+            })
+            :            users.map((user) => {
+                return (
+                    <div>
+                        {' '}
+                        <h1>Question: {user.name1}</h1>
+                        <h1>Correct Option: {user.age1}</h1>
+                        <h3>Option1: {user.opt1}</h3>
+                        <h3>Option2: {user.opt2}</h3>
+                        <h3>Option3: {user.opt3}</h3>
+                        <h3>Option4: {user.opt4}</h3>
+                        <button
+                            onClick={() => {
+                                deleteMultipleChoiceQuestion(user.id);
+                            }}
+                        >
+                            {' '}
+                            Delete Question
+                        </button>
+                    </div>
+                );
+            })}
+
+            {/* {users.map((user) => {
                 return (
                     <div>
                         {' '}
@@ -190,7 +240,7 @@ function ManagerHome() {
                         </button>
                     </div>
                 );
-            })}
+            })} */}
         </div>
     );
 }
