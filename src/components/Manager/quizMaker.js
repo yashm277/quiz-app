@@ -18,6 +18,8 @@ import {
 function ManagerHome() {
     const [newName, setNewName] = useState('');
     const [newAge, setNewAge] = useState(0);
+    const [newName1, setNewName1] = useState('');
+    const [newAge1, setNewAge1] = useState(0);
     const [option1, setOption1] = useState('');
     const [option2, setOption2] = useState('');
     const [option3, setOption3] = useState('');
@@ -25,11 +27,6 @@ function ManagerHome() {
     const [userAnswer, setUserAnswer] = useState(0);
     const [users, setUsers] = useState([]);
     const usersCollectionRef = collection(db, uniqueID);
-
-    function ClearFields() {
-        document.getElementById('textfield1').value = '';
-        document.getElementById('textfield2').value = '';
-    }
 
     const createUser = async () => {
         await addDoc(usersCollectionRef, {
@@ -49,15 +46,19 @@ function ManagerHome() {
         const userDoc = doc(db, uniqueID, id);
         await deleteDoc(userDoc);
     };
+    const deleteMultipleChoiceQuestion = async (id) => {
+        const userDoc = doc(db, uniqueID, id);
+        await deleteDoc(userDoc);
+    };
 
     const createMultipleChoiceQuestion = async () => {
         await addDoc(usersCollectionRef, {
-            name: newName,
+            name1: newName1,
             opt1: option1,
             opt2: option2,
             opt3: option3,
             opt4: option4,
-            age: Number(newAge),
+            age1: Number(newAge1),
             userAnswer: Number(userAnswer),
         });
     };
@@ -87,14 +88,14 @@ function ManagerHome() {
                 <input
                     placeholder="Question..."
                     onChange={(event) => {
-                        setNewName(event.target.value);
+                        setNewName1(event.target.value);
                     }}
                 />
                 <input
                     type="number"
                     placeholder="Which number option is correct..."
                     onChange={(event) => {
-                        setNewAge(event.target.value);
+                        setNewAge1(event.target.value);
                     }}
                 />
                 <input
@@ -173,12 +174,20 @@ function ManagerHome() {
                 return (
                     <div>
                         {' '}
-                        <h1>Question: {user.name}</h1>
-                        <h1>Correct Option: {user.age}</h1>
+                        <h1>Question: {user.name1}</h1>
+                        <h1>Correct Option: {user.age1}</h1>
                         <h3>Option1: {user.opt1}</h3>
                         <h3>Option2: {user.opt2}</h3>
                         <h3>Option3: {user.opt3}</h3>
                         <h3>Option4: {user.opt4}</h3>
+                        <button
+                            onClick={() => {
+                                deleteMultipleChoiceQuestion(user.id);
+                            }}
+                        >
+                            {' '}
+                            Delete Question
+                        </button>
                     </div>
                 );
             })}
